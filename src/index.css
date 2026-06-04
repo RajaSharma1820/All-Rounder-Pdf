@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+}
+
+/* Customized Futuristic Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(3, 7, 18, 0.9);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+}
+
+/* Cosmic Dot Grid Theme */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(99, 102, 241, 0.15) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+}
+
+/* Glow lines and high-performance gradients */
+.glow-indigo-overlay {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+}
+
+.glow-purple-overlay {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.08) 0%, transparent 75%);
+}
+
+/* Scanning effect indicator */
+@keyframes laserScan {
+  0% { transform: translateY(0); opacity: 0.3; }
+  50% { transform: translateY(220px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 0.3; }
+}
+
+.laser-scan-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #818cf8, #c084fc, #818cf8, transparent);
+  box-shadow: 0 0 15px 3px rgba(129, 140, 248, 0.8), 0 0 4px 1px rgba(192, 132, 252, 0.6);
+  animation: laserScan 4s ease-in-out infinite;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 20;
+}
+
+/* Dynamic Interactive Laser Styling for Upload Boxes */
+.custom-drag-drop-zone {
+  position: relative;
+  overflow: hidden;
+  border: 1px dashed rgba(255, 255, 255, 0.15) !important;
+  background: rgba(15, 23, 42, 0.5) !important;
+  transition: all 0.3s ease;
+}
+.custom-drag-drop-zone:hover {
+  border-color: rgba(99, 102, 241, 0.5) !important;
+  background: rgba(15, 23, 42, 0.8) !important;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.1);
+}
+
+/* Animated Scan Overlay inside any drag-drop zone */
+.theme-immersive-dark .border-dashed {
+  position: relative;
+  overflow: hidden;
+  border-style: dashed !important;
+  border-width: 2px !important;
+  border-color: rgba(99, 102, 241, 0.25) !important;
+  background-color: rgba(15, 23, 42, 0.4) !important;
+  border-radius: 24px !important;
+  transition: all 0.3s ease;
+}
+
+.theme-immersive-dark .border-dashed::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(129, 140, 248, 0.7), rgba(192, 132, 252, 0.7), rgba(129, 140, 248, 0.7), transparent);
+  box-shadow: 0 0 10px rgba(129, 140, 248, 0.6);
+  animation: laserScan 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.theme-immersive-dark .border-dashed:hover {
+  border-color: rgba(129, 140, 248, 0.5) !important;
+  background-color: rgba(15, 23, 42, 0.75) !important;
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.15);
+}
+
+/* Theme adaptation overrides to morph light-designed components into custom dark theme seamlessly */
+.theme-immersive-dark {
+  background-color: #030712;
+  color: #e2e8f0;
+}
+
+/* Elevate general white panels to glass-cyber elements */
+.theme-immersive-dark .bg-white {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f1f5f9 !important;
+}
+
+/* Keep thumbnail previews or interactive items identifiable */
+.theme-immersive-dark .bg-white.keep-light-preview,
+.theme-immersive-dark .keep-light {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Background updates for generic wrappers */
+.theme-immersive-dark .bg-gray-50,
+.theme-immersive-dark .bg-slate-50,
+.theme-immersive-dark .bg-gray-100,
+.theme-immersive-dark .bg-slate-100 {
+  background-color: rgba(3, 7, 18, 0.5) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.theme-immersive-dark .bg-gray-50\/50 {
+  background-color: transparent !important;
+}
+
+/* Button & interactive states mapping */
+.theme-immersive-dark .bg-gray-50:hover, 
+.theme-immersive-dark .bg-gray-100:hover,
+.theme-immersive-dark .hover\:bg-gray-100:hover,
+.theme-immersive-dark .hover\:bg-gray-50:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Active tag elements e.g. blue badges or buttons */
+.theme-immersive-dark .bg-blue-50,
+.theme-immersive-dark .bg-indigo-50,
+.theme-immersive-dark .bg-blue-100\/50 {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+  color: #818cf8 !important;
+}
+
+.theme-immersive-dark .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(16, 185, 129, 0.25) !important;
+  color: #34d399 !important;
+}
+
+.theme-immersive-dark .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.12) !important;
+  border-color: rgba(245, 158, 11, 0.25) !important;
+  color: #fbbf24 !important;
+}
+
+/* Typography transformation inside dark theme */
+.theme-immersive-dark .text-gray-950,
+.theme-immersive-dark .text-gray-900,
+.theme-immersive-dark .text-slate-900,
+.theme-immersive-dark .text-gray-800,
+.theme-immersive-dark .text-slate-800 {
+  color: #ffffff !important;
+}
+
+.theme-immersive-dark .text-gray-700,
+.theme-immersive-dark .text-slate-700,
+.theme-immersive-dark .text-gray-600,
+.theme-immersive-dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+.theme-immersive-dark .text-gray-500,
+.theme-immersive-dark .text-slate-500,
+.theme-immersive-dark .text-gray-400,
+.theme-immersive-dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* Form Controls Adaptations */
+.theme-immersive-dark input[type="text"],
+.theme-immersive-dark input[type="number"],
+.theme-immersive-dark input[type="password"],
+.theme-immersive-dark textarea,
+.theme-immersive-dark select {
+  background-color: rgba(3, 7, 18, 0.7) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.theme-immersive-dark input[type="text"]:focus,
+.theme-immersive-dark input[type="number"]:focus,
+.theme-immersive-dark textarea:focus,
+.theme-immersive-dark select:focus {
+  border-color: rgba(99, 102, 241, 0.6) !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2) !important;
+  outline: none !important;
+}
+
+/* Solid borders mapping */
+.theme-immersive-dark .border-gray-100,
+.theme-immersive-dark .border-gray-150,
+.theme-immersive-dark .border-gray-200,
+.theme-immersive-dark .border-gray-250,
+.theme-immersive-dark .border-gray-300,
+.theme-immersive-dark .border-slate-200,
+.theme-immersive-dark .border-slate-100 {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Dropdown list items inside select panels */
+.theme-immersive-dark option {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* Specific buttons conversion to premium cyber theme */
+.theme-immersive-dark .btn-primary-scifi {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  border: none;
+  transition: all 0.25s ease;
+}
+.theme-immersive-dark .btn-primary-scifi:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(99, 102, 241, 0.55), 0 0 10px rgba(139, 92, 246, 0.3);
+}
+
+.theme-immersive-dark .btn-secondary-scifi {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f1f5f9;
+  transition: all 0.2s ease;
+}
+.theme-immersive-dark .btn-secondary-scifi:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}

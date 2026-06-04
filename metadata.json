@@ -1,0 +1,6 @@
+{
+  "name": "All Rounder PDF",
+  "description": "An all-in-one high-performance client-side PDF utility workspace featuring real-time Merging, Splitting, rotating, watermarking, page numbering, image-to-PDF conversion, and TXT-to-PDF generation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
