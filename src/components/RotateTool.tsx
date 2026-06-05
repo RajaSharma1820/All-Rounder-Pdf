@@ -15,18 +15,18 @@ export default function RotateTool() {
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [successFile, setSuccessFile] = useState<{ url: string; name: string; size: number } | null>(null);
+  const [dragActive, setDragActive] = useState(false);
 
   // Tracks custom rotation angles for each individual page
   const [rotations, setRotations] = useState<PageRotateConfig[]>([]);
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
+  const processFile = async (f: File) => {
     setError(null);
     setSuccessFile(null);
 
-    const f = e.target.files[0];
-    if (f.type !== 'application/pdf') {
-      setError('Only PDF files are supported.');
+    const isPdfValue = f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
+    if (!isPdfValue) {
+      setError(`"${f.name}" is not a valid PDF file. Only PDF files are supported.`);
       return;
     }
 
@@ -48,6 +48,31 @@ export default function RotateTool() {
       setRotations(pageConfigs);
     } catch {
       setError('Failed to process custom PDF file.');
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    await processFile(e.target.files[0]);
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      await processFile(e.dataTransfer.files[0]);
     }
   };
 
@@ -179,12 +204,22 @@ export default function RotateTool() {
 
       {/* Upload zone */}
       {!file && (
-        <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-amber-500 bg-gray-50/50 hover:bg-amber-50/10 min-h-[300px] rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 shadow-sm relative group">
+        <label 
+          onDragEnter={handleDrag}
+          onDragOver={handleDrag}
+          onDragLeave={handleDrag}
+          onDrop={handleDrop}
+          className={`flex flex-col items-center justify-center border-2 border-dashed min-h-[300px] rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 shadow-sm relative group ${
+            dragActive 
+              ? 'border-amber-500 bg-amber-50/20 shadow-inner' 
+              : 'border-gray-300 hover:border-amber-500 bg-gray-50/50 hover:bg-amber-50/10'
+          }`}
+        >
           <div className="p-4 bg-white rounded-2xl shadow-md border border-gray-100 mb-4 transition-transform group-hover:scale-110">
-            <RefreshCw className="w-10 h-10 text-amber-500 animate-spin" style={{ animationDuration: '6s' }} />
+            <RefreshCw className={`w-10 h-10 text-amber-500 ${dragActive ? 'animate-bounce' : 'animate-spin'}`} style={{ animationDuration: '6s' }} />
           </div>
           <span className="text-lg font-semibold text-gray-800">
-            Select PDF to Rotate
+            {dragActive ? 'Drop your PDF here!' : 'Select PDF to Rotate'}
           </span>
           <span className="text-xs text-gray-400 mt-1 max-w-sm">
             Drag & drop files to rotate specific pages, individual indices, or align the whole PDF.

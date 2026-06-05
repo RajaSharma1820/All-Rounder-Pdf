@@ -10,22 +10,21 @@ export default function ImageToPdfTool() {
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [successFile, setSuccessFile] = useState<{ url: string; name: string; size: number } | null>(null);
+  const [dragActive, setDragActive] = useState(false);
 
   // Settings
   const [pageSize, setPageSize] = useState<'a4' | 'letter' | 'original'>('original');
   const [orientation, setOrientation] = useState<'portrait' | 'landscape'>('portrait');
   const [margin, setMargin] = useState<0 | 15 | 40>(0);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
+  const addUploadedImages = (uploaded: File[]) => {
     setError(null);
     setSuccessFile(null);
 
-    const uploaded = Array.from(e.target.files) as File[];
     const newImages: ImageFile[] = [];
 
     // Filter image types
-    const validImages = uploaded.filter(f => f.type === 'image/jpeg' || f.type === 'image/png');
+    const validImages = uploaded.filter(f => f.type === 'image/jpeg' || f.type === 'image/png' || f.name.toLowerCase().endsWith('.png') || f.name.toLowerCase().endsWith('.jpg') || f.name.toLowerCase().endsWith('.jpeg'));
     if (validImages.length < uploaded.length) {
       setError('Only standard PNG and JPG/JPEG files are currently supported for PDF compiling.');
     }
@@ -41,6 +40,33 @@ export default function ImageToPdfTool() {
     });
 
     setImages(prev => [...prev, ...newImages]);
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const uploaded = Array.from(e.target.files) as File[];
+    addUploadedImages(uploaded);
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const uploaded = Array.from(e.dataTransfer.files) as File[];
+      addUploadedImages(uploaded);
+    }
   };
 
   const moveImage = (index: number, direction: 'up' | 'down') => {
@@ -176,12 +202,22 @@ export default function ImageToPdfTool() {
 
       {/* Upload Zone */}
       {images.length === 0 && (
-        <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-indigo-500 bg-gray-50/50 hover:bg-indigo-50/10 min-h-[300px] rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 shadow-sm relative group">
+        <label 
+          onDragEnter={handleDrag}
+          onDragOver={handleDrag}
+          onDragLeave={handleDrag}
+          onDrop={handleDrop}
+          className={`flex flex-col items-center justify-center border-2 border-dashed min-h-[300px] rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 shadow-sm relative group ${
+            dragActive 
+              ? 'border-indigo-500 bg-indigo-50/20 shadow-inner' 
+              : 'border-gray-300 hover:border-indigo-500 bg-gray-50/50 hover:bg-indigo-50/10'
+          }`}
+        >
           <div className="p-4 bg-white rounded-2xl shadow-md border border-gray-100 mb-4 transition-transform group-hover:scale-110">
-            <ImageIcon className="w-10 h-10 text-indigo-500" />
+            <ImageIcon className={`w-10 h-10 text-indigo-500 ${dragActive ? 'animate-bounce' : ''}`} />
           </div>
           <span className="text-lg font-semibold text-gray-800">
-            Select Images to Compile (PNG/JPG)
+            {dragActive ? 'Drop your images here!' : 'Select Images to Compile (PNG/JPG)'}
           </span>
           <span className="text-xs text-gray-400 mt-1 max-w-sm">
             Drag photo assets, diagrams, or scans here. We construct individual high-definition document sheets in chronological sequence.

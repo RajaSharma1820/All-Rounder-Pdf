@@ -10,6 +10,7 @@ export default function NumberingTool() {
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [successFile, setSuccessFile] = useState<{ url: string; name: string; size: number } | null>(null);
+  const [dragActive, setDragActive] = useState(false);
 
   // Styling Configs
   const [format, setFormat] = useState<'standard' | 'simple' | 'bracket'>('standard');
@@ -24,14 +25,13 @@ export default function NumberingTool() {
     blue: rgb(0.15, 0.45, 0.85)
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || e.target.files.length === 0) return;
+  const processFile = async (f: File) => {
     setError(null);
     setSuccessFile(null);
 
-    const f = e.target.files[0];
-    if (f.type !== 'application/pdf') {
-      setError('Only PDF files are supported.');
+    const isPdfValue = f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
+    if (!isPdfValue) {
+      setError(`"${f.name}" is not a valid PDF file. Only PDF files are supported.`);
       return;
     }
 
@@ -46,6 +46,31 @@ export default function NumberingTool() {
       });
     } catch {
       setError('Failed to process uploaded file.');
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    await processFile(e.target.files[0]);
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      await processFile(e.dataTransfer.files[0]);
     }
   };
 
@@ -182,12 +207,22 @@ export default function NumberingTool() {
 
       {/* Upload Zone */}
       {!file && (
-        <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-sky-500 bg-gray-50/50 hover:bg-sky-50/10 min-h-[300px] rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 shadow-sm relative group">
+        <label 
+          onDragEnter={handleDrag}
+          onDragOver={handleDrag}
+          onDragLeave={handleDrag}
+          onDrop={handleDrop}
+          className={`flex flex-col items-center justify-center border-2 border-dashed min-h-[300px] rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 shadow-sm relative group ${
+            dragActive 
+              ? 'border-sky-500 bg-sky-50/20 shadow-inner' 
+              : 'border-gray-300 hover:border-sky-500 bg-gray-50/50 hover:bg-sky-50/10'
+          }`}
+        >
           <div className="p-4 bg-white rounded-2xl shadow-md border border-gray-100 mb-4 transition-transform group-hover:scale-110">
-            <Hash className="w-10 h-10 text-sky-500" />
+            <Hash className={`w-10 h-10 text-sky-500 ${dragActive ? 'animate-bounce' : ''}`} />
           </div>
           <span className="text-lg font-semibold text-gray-800">
-            Upload PDF for Numbering
+            {dragActive ? 'Drop your PDF here!' : 'Upload PDF for Numbering'}
           </span>
           <span className="text-xs text-gray-400 mt-1 max-w-sm">
             Quickly append standardized header/footer counters. Local computation guarantees 100% security.

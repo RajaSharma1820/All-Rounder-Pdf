@@ -10,18 +10,17 @@ export default function MergeTool() {
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [successFile, setSuccessFile] = useState<{ url: string; name: string; size: number } | null>(null);
+  const [dragActive, setDragActive] = useState(false);
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
+  const addUploadedFiles = async (uploaded: File[]) => {
     setError(null);
     setSuccessFile(null);
-
-    const uploaded = Array.from(e.target.files) as File[];
     const newFiles: PDFFile[] = [];
 
     for (const f of uploaded) {
-      if (f.type !== 'application/pdf') {
-        setError('Only PDF files are supported.');
+      const isPdfValue = f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
+      if (!isPdfValue) {
+        setError(`"${f.name}" is not a valid PDF file. Only PDF files are supported.`);
         continue;
       }
 
@@ -36,6 +35,33 @@ export default function MergeTool() {
     }
 
     setFiles(prev => [...prev, ...newFiles]);
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const uploaded = Array.from(e.target.files) as File[];
+    await addUploadedFiles(uploaded);
+  };
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const uploaded = Array.from(e.dataTransfer.files) as File[];
+      await addUploadedFiles(uploaded);
+    }
   };
 
   const handleGenerateSample = async (title: string, pages: number) => {
@@ -98,8 +124,13 @@ export default function MergeTool() {
       const mergedPdf = await PDFDocument.create();
 
       for (const item of files) {
-        const fileBuffer = await item.file.arrayBuffer();
-        const pdfDoc = await PDFDocument.load(fileBuffer);
+        let pdfDoc;
+        try {
+          const fileBuffer = await item.file.arrayBuffer();
+          pdfDoc = await PDFDocument.load(fileBuffer);
+        } catch (e: any) {
+          throw new Error(`Failed to load "${item.name}". The PDF might be corrupted or encrypted with a password.`);
+        }
         const pages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
         pages.forEach((page) => mergedPdf.addPage(page));
       }
@@ -115,9 +146,9 @@ export default function MergeTool() {
         name: outputName,
         size
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      setError('Internal error merging the PDF files. Please verify that files are valid PDFs.');
+      setError(err?.message || 'Internal error merging the PDF files. Please verify that files are valid PDFs.');
     } finally {
       setProcessing(false);
     }
@@ -171,14 +202,24 @@ export default function MergeTool() {
       {/* Main Drag-Drop Upload Area */}
       {files.length === 0 && (
         <div className="relative group">
-          <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 group-hover:border-blue-500 bg-gray-50/50 group-hover:bg-blue-50/10 min-h-[300px] rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 shadow-sm">
+          <label 
+            onDragEnter={handleDrag}
+            onDragOver={handleDrag}
+            onDragLeave={handleDrag}
+            onDrop={handleDrop}
+            className={`flex flex-col items-center justify-center border-2 border-dashed min-h-[300px] rounded-3xl p-8 text-center cursor-pointer transition-all duration-300 shadow-sm ${
+              dragActive 
+                ? 'border-blue-500 bg-blue-50/20 shadow-inner' 
+                : 'border-gray-300 group-hover:border-blue-500 bg-gray-50/50 group-hover:bg-blue-50/10'
+            }`}
+          >
             <div className="p-4 bg-white rounded-2xl shadow-md border border-gray-100 mb-4 transition-transform group-hover:scale-110">
-              <FileUp className="w-10 h-10 text-blue-500" />
+              <FileUp className={`w-10 h-10 ${dragActive ? 'text-blue-600 animate-bounce' : 'text-blue-500'}`} />
             </div>
             <span className="text-lg font-semibold text-gray-800">
-              Drag & drop PDF files here
+              {dragActive ? 'Drop your PDFs here!' : 'Drag & drop PDF files here'}
             </span>
-            <span className="text-xs text-gray-400 mt-1 max-w-sm">
+            <span className="text-xs text-gray-400 mt-1 max-w-sm font-medium">
               Supporting multiple PDF documents. Your files are processed 100% locally in your browser for absolute privacy.
             </span>
             <div className="mt-5">
