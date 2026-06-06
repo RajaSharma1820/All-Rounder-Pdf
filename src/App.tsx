@@ -1044,7 +1044,7 @@ export default function App() {
             ) : (
               <div className="space-y-2 text-center py-1">
                 <p className="text-[10px] text-slate-500 font-sans mx-1">
-                  Connect account to sync your toolbox history.
+                  no session found
                 </p>
                 <button
                   type="button"
@@ -1097,7 +1097,7 @@ export default function App() {
               }`}>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 shrink-0" />
-                  <span className="font-bold text-[10px]">LOCAL ISOLATION</span>
+                  <span className="font-bold text-[10px]">Privacy 100%</span>
                 </div>
                 <span className={`text-[8px] font-mono px-1.5 py-0.5 rounded uppercase font-bold ${isDarkMode ? 'bg-emerald-500/10' : 'bg-emerald-100'}`}>SECURE</span>
               </div>
@@ -1166,7 +1166,7 @@ export default function App() {
             ) : (
               <div className="py-4 text-center">
                 <p className="text-[10px] text-slate-500 font-mono leading-relaxed px-2">
-                  No local sandbox activity recorded. Try combining or converting files!
+                  no activity found
                 </p>
               </div>
             )}
