@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PDFDocument } from 'pdf-lib';
 import { FileUp, Trash2, ArrowUp, ArrowDown, Sparkles, Check, Download, AlertCircle, Image as ImageIcon, Layers } from 'lucide-react';
 import { ImageFile } from '../types';
-import { formatBytes } from '../utils/pdfHelpers';
+import { formatBytes, logProcessedFile } from '../utils/pdfHelpers';
 
 export default function ImageToPdfTool() {
   const [images, setImages] = useState<ImageFile[]>([]);
@@ -170,6 +170,7 @@ export default function ImageToPdfTool() {
         name: outputName,
         size
       });
+      logProcessedFile(outputName, 'Image to PDF', size);
     } catch (err) {
       console.error(err);
       setError('Internal compiling error. Ensure your image formats are not damaged.');

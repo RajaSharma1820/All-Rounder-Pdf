@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Global Helpers
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    function incoming() { 
+      return request.resource.data; 
+    }
+    function existing() { 
+      return resource.data; 
+    }
+    function isSignedIn() { 
+      return request.auth != null; 
+    }
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // --- Users Collection ---
+    // Schema fields: uid, email, displayName, createdAt
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'displayName', 'createdAt'])
+        && data.keys().size() == 4
+        && data.uid is string && data.uid.size() <= 128
+        && data.email is string && data.email.size() <= 256
+        && data.displayName is string && data.displayName.size() <= 128
+        && data.createdAt is timestamp;
+    }
+
+    match /users/{userId} {
+      allow get: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId) && isValidUser(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && isOwner(userId) && isValidUser(incoming()) 
+                     && incoming().createdAt == existing().createdAt
+                     && incoming().email == existing().email;
+      allow delete: if false;
+
+      // --- Nested History Collection ---
+      // Schema fields: userId, fileName, toolName, size, createdAt
+      function isValidHistory(data, uId) {
+        return data.keys().hasAll(['userId', 'fileName', 'toolName', 'size', 'createdAt'])
+          && data.keys().size() == 5
+          && data.userId == uId
+          && data.fileName is string && data.fileName.size() <= 512
+          && data.toolName is string && data.toolName.size() <= 128
+          && (data.size is int || data.size is float)
+          && data.createdAt is timestamp;
+      }
+
+      match /history/{historyId} {
+        allow list, get: if isSignedIn() && isOwner(userId);
+        allow create: if isSignedIn() && isOwner(userId) && isValidHistory(incoming(), userId) && incoming().createdAt == request.time;
+        allow update, delete: if false;
+      }
+    }
+  }
+}

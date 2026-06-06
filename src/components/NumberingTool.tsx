@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { FileUp, Trash2, Sparkles, Check, Download, AlertCircle, FileText, Hash, Layers } from 'lucide-react';
 import { PDFFile } from '../types';
-import { formatBytes, generateMockPDF, getPdfInfo } from '../utils/pdfHelpers';
+import { formatBytes, generateMockPDF, getPdfInfo, logProcessedFile } from '../utils/pdfHelpers';
 
 export default function NumberingTool() {
   const [file, setFile] = useState<PDFFile | null>(null);
@@ -158,6 +158,7 @@ export default function NumberingTool() {
         name: outputName,
         size: sizeBytes
       });
+      logProcessedFile(outputName, 'Page Number PDF', sizeBytes);
     } catch (err) {
       console.error(err);
       setError('Internal error applying page numbers. Ensure the PDF is not encrypted.');

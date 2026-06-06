@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PDFDocument } from 'pdf-lib';
 import { FileUp, Trash2, ArrowUp, ArrowDown, Sparkles, Check, Download, AlertCircle, FileText } from 'lucide-react';
 import { PDFFile } from '../types';
-import { formatBytes, generateMockPDF, getPdfInfo } from '../utils/pdfHelpers';
+import { formatBytes, generateMockPDF, getPdfInfo, logProcessedFile } from '../utils/pdfHelpers';
 
 export default function MergeTool() {
   const [files, setFiles] = useState<PDFFile[]>([]);
@@ -146,6 +146,7 @@ export default function MergeTool() {
         name: outputName,
         size
       });
+      logProcessedFile(outputName, 'Merge PDF', size);
     } catch (err: any) {
       console.error(err);
       setError(err?.message || 'Internal error merging the PDF files. Please verify that files are valid PDFs.');

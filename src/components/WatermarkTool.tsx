@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PDFDocument, rgb, StandardFonts, degrees } from 'pdf-lib';
 import { FileUp, Trash2, Sparkles, Check, Download, AlertCircle, FileText, Type, Sliders, Palette, LayoutGrid } from 'lucide-react';
 import { PDFFile } from '../types';
-import { formatBytes, generateMockPDF, getPdfInfo } from '../utils/pdfHelpers';
+import { formatBytes, generateMockPDF, getPdfInfo, logProcessedFile } from '../utils/pdfHelpers';
 
 export default function WatermarkTool() {
   const [file, setFile] = useState<PDFFile | null>(null);
@@ -175,6 +175,7 @@ export default function WatermarkTool() {
         name: outputName,
         size: sizeBytes
       });
+      logProcessedFile(outputName, 'Watermark PDF', sizeBytes);
     } catch (err) {
       console.error(err);
       setError('An error occurred during watermarking. Ensure the file is not secured.');

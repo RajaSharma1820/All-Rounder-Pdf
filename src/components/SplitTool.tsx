@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PDFDocument } from 'pdf-lib';
 import { FileUp, Trash2, Sparkles, Check, Download, AlertCircle, FileText, CheckSquare, Plus, Minus, Layers } from 'lucide-react';
 import { PDFFile } from '../types';
-import { formatBytes, generateMockPDF, getPdfInfo } from '../utils/pdfHelpers';
+import { formatBytes, generateMockPDF, getPdfInfo, logProcessedFile } from '../utils/pdfHelpers';
 
 export default function SplitTool() {
   const [file, setFile] = useState<PDFFile | null>(null);
@@ -173,6 +173,9 @@ export default function SplitTool() {
       }
 
       setSuccessFiles(results);
+      results.forEach(res => {
+        logProcessedFile(res.name, 'Split PDF', res.size);
+      });
     } catch (err) {
       console.error(err);
       setError('An error occurred during splitting. Please verify that the PDF is not encrypted or damaged.');

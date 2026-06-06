@@ -140,3 +140,14 @@ export async function getPdfInfo(file: File): Promise<{ pageCount: number; title
     return { pageCount: 1, title: '', author: '' };
   }
 }
+
+/**
+ * Dispatches a global event when a PDF is processed, so the Recent Files tracker updates dynamically.
+ */
+export function logProcessedFile(name: string, toolName: string, size?: number) {
+  window.dispatchEvent(
+    new CustomEvent('allrounder-pdf-processed', {
+      detail: { name, toolName, size },
+    })
+  );
+}

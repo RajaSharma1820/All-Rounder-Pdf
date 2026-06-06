@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { PDFDocument, rgb, StandardFonts, PDFName } from 'pdf-lib';
 import pptxgen from 'pptxgenjs';
-import { formatBytes, generateMockPDF } from '../utils/pdfHelpers';
+import { formatBytes, generateMockPDF, logProcessedFile } from '../utils/pdfHelpers';
 
 interface GenericToolProps {
   toolId: string;
@@ -994,6 +994,7 @@ SUMMARY DETAILS (Mode = ${summaryMode}):
 
       setProcessedBlob(resultBlob);
       setProcessedFileName(resultName);
+      logProcessedFile(resultName, tool?.name || 'PDF Tool', resultBlob.size);
 
       let currentLogIndex = 0;
       const interval = setInterval(() => {

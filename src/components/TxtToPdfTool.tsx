@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { Trash2, Sparkles, Check, Download, AlertCircle, FileText, FileSignature, Landmark, Calendar, User } from 'lucide-react';
-import { formatBytes } from '../utils/pdfHelpers';
+import { formatBytes, logProcessedFile } from '../utils/pdfHelpers';
 
 export default function TxtToPdfTool() {
   const [error, setError] = useState<string | null>(null);
@@ -239,6 +239,7 @@ export default function TxtToPdfTool() {
         name: outputName,
         size: sizeBytes
       });
+      logProcessedFile(outputName, 'Text to PDF', sizeBytes);
     } catch (err) {
       console.error(err);
       setError('An error occurred during note compiling.');

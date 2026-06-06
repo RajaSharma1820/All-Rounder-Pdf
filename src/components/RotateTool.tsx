@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { PDFDocument, degrees } from 'pdf-lib';
 import { FileUp, Trash2, Sparkles, Check, Download, AlertCircle, FileText, RotateCw, RefreshCw, Layers } from 'lucide-react';
 import { PDFFile } from '../types';
-import { formatBytes, generateMockPDF, getPdfInfo } from '../utils/pdfHelpers';
+import { formatBytes, generateMockPDF, getPdfInfo, logProcessedFile } from '../utils/pdfHelpers';
 
 interface PageRotateConfig {
   pageIndex: number;
@@ -154,6 +154,7 @@ export default function RotateTool() {
         name: outputName,
         size
       });
+      logProcessedFile(outputName, 'Rotate PDF', size);
     } catch (err) {
       console.error(err);
       setError('Failed to apply rotation. Make sure the document permits editing.');
