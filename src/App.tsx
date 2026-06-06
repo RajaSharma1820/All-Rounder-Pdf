@@ -1742,7 +1742,7 @@ export default function App() {
                 <Sparkles className="w-3 h-3 text-red-200" /> Private & Offline-First Core
               </span>
               <h3 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight uppercase font-sans italic">
-                100% Client-Side Sandbox Processing
+                100% data secure
               </h3>
               <p className="text-xs sm:text-sm text-red-100 leading-relaxed font-sans max-w-xl">
                 Your files are processed directly inside your browser memory buffer context. They are never transmitted over the internet or uploaded to any third-party server.
