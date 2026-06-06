@@ -1049,7 +1049,7 @@ SUMMARY DETAILS (Mode = ${summaryMode}):
   return (
     <div className="space-y-6 text-left" id={`generic-tool-${toolId}`}>
       {/* Tool Header Summary info block */}
-      <div className="bg-slate-900/50 p-6 rounded-2xl border border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#2c0e0e] p-6 rounded-2xl border border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-white/5 border border-white/10 rounded-xl text-indigo-400">
             {getIconComponent(tool.icon)}
@@ -1079,7 +1079,7 @@ SUMMARY DETAILS (Mode = ${summaryMode}):
                   <div 
                     onClick={() => fileInputRef.current?.click()}
                     className={`p-6 rounded-[24px] border border-dashed text-center cursor-pointer flex flex-col items-center justify-center min-h-[220px] transition duration-300 ${
-                      file ? 'border-indigo-500 bg-slate-900/40' : 'border-white/10 bg-slate-950/40 hover:border-indigo-400/50'
+                      file ? 'border-indigo-500 bg-slate-900/40' : 'border-white/10 bg-[#2c0e0e] hover:border-indigo-400/50 hover:bg-[#3d1414]'
                     }`}
                   >
                     <input 
@@ -1110,7 +1110,7 @@ SUMMARY DETAILS (Mode = ${summaryMode}):
                   <div 
                     onClick={() => fileInputRef2.current?.click()}
                     className={`p-6 rounded-[24px] border border-dashed text-center cursor-pointer flex flex-col items-center justify-center min-h-[220px] transition duration-300 ${
-                      file2 ? 'border-purple-500 bg-slate-900/40' : 'border-white/10 bg-slate-950/40 hover:border-indigo-400/50'
+                      file2 ? 'border-purple-500 bg-slate-900/40' : 'border-white/10 bg-[#2c0e0e] hover:border-indigo-400/50 hover:bg-[#3d1414]'
                     }`}
                   >
                     <input 
@@ -1148,7 +1148,7 @@ SUMMARY DETAILS (Mode = ${summaryMode}):
                   className={`p-10 rounded-[24px] border border-dashed transition duration-300 flex flex-col items-center justify-center text-center cursor-pointer min-h-[220px] ${
                     dragActive 
                       ? 'border-indigo-400 bg-slate-900/80 shadow-inner' 
-                      : 'border-white/20 bg-slate-950/40 hover:border-indigo-400/50 hover:bg-slate-950/60'
+                      : 'border-white/20 bg-[#2c0e0e] hover:border-indigo-400/50 hover:bg-[#3d1414]'
                   }`}
                 >
                   <input 
@@ -1189,7 +1189,7 @@ SUMMARY DETAILS (Mode = ${summaryMode}):
             ) : (
               toolId === 'html-to-pdf' ? (
                 /* URL Input for HTML to PDF */
-                <div className="bg-slate-950/40 p-6 rounded-[24px] border border-white/10 flex flex-col justify-between min-h-[220px]">
+                <div className="bg-[#2c0e0e] p-6 rounded-[24px] border border-white/10 flex flex-col justify-between min-h-[220px]">
                   <div className="space-y-3">
                     <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-mono block">Direct URL Input</span>
                     <input
@@ -1204,7 +1204,7 @@ SUMMARY DETAILS (Mode = ${summaryMode}):
                 </div>
               ) : (
                 /* Markdown editor for Markdown to PDF */
-                <div className="bg-slate-950/40 p-5 rounded-[24px] border border-white/10 flex flex-col justify-between min-h-[220px] space-y-2">
+                <div className="bg-[#2c0e0e] p-5 rounded-[24px] border border-white/10 flex flex-col justify-between min-h-[220px] space-y-2">
                   <div className="space-y-2 flex-grow flex flex-col">
                     <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-mono block">Live Markdown Editor Input</span>
                     <textarea
@@ -1221,7 +1221,7 @@ SUMMARY DETAILS (Mode = ${summaryMode}):
             )}
 
             {/* Custom Tool Options card representing high specificity */}
-            <div className="bg-slate-950/40 p-6 rounded-[24px] border border-white/10 flex flex-col justify-between min-h-[220px]">
+            <div className="bg-[#2c0e0e] p-6 rounded-[24px] border border-white/10 flex flex-col justify-between min-h-[220px]">
               <div className="space-y-4">
                 <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider font-mono flex items-center gap-1.5">
                   <Settings className="w-4 h-4 text-slate-400" /> Configuration Parameters

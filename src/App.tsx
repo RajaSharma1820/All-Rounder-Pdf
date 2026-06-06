@@ -806,7 +806,7 @@ export default function App() {
           <div className="flex items-center gap-6 text-left">
             <div className="flex items-center gap-2.5 cursor-pointer select-none" onClick={() => { setSelectedToolId(null); setActiveInfoPage(null); setSearchQuery(''); }}>
               {/* iLovePDF signature brand logo clone representation: bold red rounded square with document icon */}
-              <div className="w-9 h-9 rounded-lg bg-[#e22828] hover:bg-[#c91e1e] transition-colors duration-200 flex flex-col items-center justify-center text-white font-extrabold shadow-sm transform hover:scale-105 shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-[#860039] hover:bg-[#730030] transition-colors duration-200 flex flex-col items-center justify-center text-white font-extrabold shadow-sm transform hover:scale-105 shrink-0">
                 <span className="text-[10px] uppercase font-sans font-black tracking-tighter leading-none">PDF</span>
                 <span className="text-[8px] font-bold leading-none">&#9733;</span>
               </div>
@@ -1256,50 +1256,64 @@ export default function App() {
                 className="space-y-6"
               >
                 {/* Back Button Panel */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/50 backdrop-blur-md p-5 border border-white/10 rounded-3xl shadow-lg relative overflow-hidden">
-                  <div className={`absolute top-0 left-0 w-full h-[1px] ${colors.laserLine} opacity-60`}></div>
+                <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 backdrop-blur-md p-5 border rounded-3xl shadow-sm relative overflow-hidden transition-all duration-300 ${
+                  isDarkMode 
+                    ? 'bg-slate-900/50 border-white/10 text-slate-200 shadow-md' 
+                    : 'bg-white border-slate-200 text-slate-800'
+                }`}>
+                  {isDarkMode && <div className={`absolute top-0 left-0 w-full h-[1px] ${colors.laserLine} opacity-60`}></div>}
                   <button
                     type="button"
                     onClick={() => setActiveInfoPage(null)}
-                    className="px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white text-xs font-bold rounded-xl transition cursor-pointer flex items-center gap-1.5 hover:scale-[1.02] active:scale-[0.98] shadow-md shrink-0"
+                    className={`px-5 py-2.5 border text-xs font-bold rounded-xl transition cursor-pointer flex items-center gap-1.5 hover:scale-[1.01] active:scale-[0.99] shadow-sm shrink-0 ${
+                      isDarkMode 
+                        ? 'bg-white/5 hover:bg-white/10 border-white/10 text-white' 
+                        : 'bg-slate-100 hover:bg-[#e22828] hover:text-white border-slate-250 text-slate-750 hover:border-[#e22828]'
+                    }`}
                   >
-                    <ArrowLeft className={`w-4 h-4 ${colors.btnBackIcon}`} /> Back to Dashboard
+                    <ArrowLeft className="w-4 h-4" /> Back to Dashboard
                   </button>
 
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block font-mono">
+                    <span className={`text-xs font-bold uppercase tracking-widest block font-sans ${isDarkMode ? 'text-slate-400 font-mono' : 'text-slate-600'}`}>
                       INFO REGISTRY MODULE
                     </span>
-                    <span className="h-4 w-[1px] bg-white/10" />
-                    <span className={`text-xs font-semibold px-3 py-1 ${colors.badge} rounded-full flex items-center gap-1 shadow-sm uppercase font-mono`}>
+                    <span className={`h-4 w-[1px] ${isDarkMode ? 'bg-white/10' : 'bg-slate-200'}`} />
+                    <span className={`text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-sm uppercase font-mono ${
+                      isDarkMode ? colors.badge : 'bg-red-55 text-red-650 border border-red-200'
+                    }`}>
                       {activeInfoPage}
                     </span>
                   </div>
                 </div>
 
-                <div className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-[32px] p-6 sm:p-10 shadow-2xl relative overflow-hidden space-y-8 text-left">
-                  <div className={`absolute top-0 left-0 w-full h-[1.5px] ${colors.laserLine}`}></div>
+                <div className={`border rounded-[32px] p-6 sm:p-10 shadow-sm relative overflow-hidden space-y-8 text-left transition-all duration-300 ${
+                  isDarkMode 
+                    ? 'bg-slate-900/60 backdrop-blur-xl border-white/10 text-slate-200' 
+                    : 'bg-white border-slate-200/90 text-slate-850 shadow-md'
+                }`}>
+                  {isDarkMode && <div className={`absolute top-0 left-0 w-full h-[1.5px] ${colors.laserLine}`}></div>}
 
                   {activeInfoPage === 'about' && (
                     <div className="space-y-6">
                       <div className="space-y-2">
-                        <span className="text-xs font-bold text-indigo-400 font-mono tracking-widest uppercase block">✦ GLOBAL MISSION</span>
-                        <h2 className="text-3xl font-black text-white tracking-tight leading-none uppercase">ABOUT ALLROUNDERPDF</h2>
-                        <p className="text-slate-400 text-sm leading-relaxed max-w-3xl">
+                        <span className={`text-xs font-bold font-sans tracking-widest uppercase block ${isDarkMode ? 'text-indigo-400 font-mono' : 'text-indigo-650'}`}>✦ GLOBAL MISSION</span>
+                        <h2 className={`text-3xl font-black tracking-tight leading-none uppercase ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>ABOUT ALLROUNDERPDF</h2>
+                        <p className={`text-sm leading-relaxed max-w-3xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                           AllRounderPDF is built with a singular design vision: to deliver a comprehensive, hyper-optimized, sandboxed environment for your documents. We believe formatting, security, and editing should not mean sacrificing custody of your confidential files.
                         </p>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4">
-                        <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-                          <h3 className="font-bold text-white text-sm">100% Client-Side Integrity</h3>
-                          <p className="text-slate-400 text-xs leading-relaxed">
+                        <div className={`p-5 rounded-2xl border space-y-2 transition-all ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                          <h3 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>100% Client-Side Integrity</h3>
+                          <p className={`text-xs leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                             Unlike traditional cloud editors that upload files to insecure databases, AllRounderPDF works directly on browser memory buffer pipelines. Your data never leaves your computer, ensuring total isolation.
                           </p>
                         </div>
-                        <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-                          <h3 className="font-bold text-white text-sm">Engineered for Latency-Free Downloads</h3>
-                          <p className="text-slate-400 text-xs leading-relaxed">
+                        <div className={`p-5 rounded-2xl border space-y-2 transition-all ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                          <h3 className={`font-bold text-sm ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Engineered for Latency-Free Downloads</h3>
+                          <p className={`text-xs leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                             WebAssembly and modern hardware memory APIs compile formats on-device instantly. This results in immediate download speeds and secure operations.
                           </p>
                         </div>
@@ -1342,40 +1356,46 @@ export default function App() {
                   {activeInfoPage === 'pricing' && (
                     <div className="space-y-6">
                       <div className="space-y-2">
-                        <span className="text-xs font-bold text-indigo-400 font-mono tracking-widest uppercase block">✦ ALLROUNDER FREEMIUM</span>
-                        <h2 className="text-3xl font-black text-white tracking-tight leading-none uppercase">PRICING POLICY: 100% FREE</h2>
-                        <p className="text-slate-400 text-sm leading-relaxed max-w-3xl">
+                        <span className={`text-xs font-bold font-sans tracking-widest uppercase block ${isDarkMode ? 'text-indigo-400 font-mono' : 'text-indigo-650'}`}>✦ ALLROUNDER FREEMIUM</span>
+                        <h2 className={`text-3xl font-black tracking-tight leading-none uppercase ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>PRICING POLICY: 100% FREE</h2>
+                        <p className={`text-sm leading-relaxed max-w-3xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                           AllRounderPDF is built on the principle of open-access software. There are absolutely no subscriptions, hidden limits, processing queue delays, or premium features. Every single tool in our arsenal is 100% free forever.
                         </p>
                       </div>
 
-                      <div className="p-8 rounded-3xl bg-indigo-500/5 border border-indigo-500/25 max-w-xl space-y-6">
+                      <div className={`p-8 rounded-3xl border max-w-xl space-y-6 transition-all ${
+                        isDarkMode ? 'bg-indigo-500/5 border-indigo-500/25' : 'bg-indigo-50/30 border-indigo-100'
+                      }`}>
                         <div className="flex items-center justify-between">
                           <div className="space-y-1">
-                            <h3 className="text-lg font-bold text-white">Unlimited Secure License</h3>
-                            <span className="text-[9px] font-mono font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded tracking-wide uppercase">ACTIVE COMPLEMENTARY PASS</span>
+                            <h3 className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Unlimited Secure License</h3>
+                            <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded tracking-wide uppercase ${
+                              isDarkMode ? 'text-indigo-400 bg-indigo-500/10' : 'text-indigo-600 bg-indigo-100'
+                            }`}>ACTIVE COMPLEMENTARY PASS</span>
                           </div>
                           <div className="text-right">
-                            <span className="text-3xl font-black text-white">$0.00</span>
-                            <span className="text-[10px] text-slate-400 font-mono block">FOREVER FREE</span>
+                            <span className={`text-3xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>$0.00</span>
+                            <span className={`text-[10px] font-mono block ${isDarkMode ? 'text-slate-400' : 'text-slate-550'}`}>FOREVER FREE</span>
                           </div>
                         </div>
 
-                        <div className="space-y-2.5 pt-4 border-t border-white/5 text-xs text-slate-300">
+                        <div className={`space-y-2.5 pt-4 border-t text-xs ${
+                          isDarkMode ? 'border-white/5 text-slate-300' : 'border-slate-205 text-slate-650'
+                        }`}>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-emerald-400" />
+                            <CheckCircle className="w-4 h-4 text-emerald-500" />
                             <span>Unlimited conversions, merges, and splits</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-emerald-400" />
+                            <CheckCircle className="w-4 h-4 text-emerald-500" />
                             <span>Full offline client-side safety integration</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-emerald-400" />
+                            <CheckCircle className="w-4 h-4 text-emerald-500" />
                             <span>Access to all conversion types (Word, Markdown, HTML, PPT, etc.)</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <CheckCircle className="w-4 h-4 text-emerald-400" />
+                            <CheckCircle className="w-4 h-4 text-emerald-500" />
                             <span>No registration or credit card information required</span>
                           </div>
                         </div>
@@ -1386,8 +1406,8 @@ export default function App() {
                   {activeInfoPage === 'faq' && (
                     <div className="space-y-6">
                       <div className="space-y-2">
-                        <span className="text-xs font-bold text-indigo-400 font-mono tracking-widest uppercase block">✦ FREQUENTLY ASKED QUESTIONS</span>
-                        <h2 className="text-3xl font-black text-white tracking-tight leading-none uppercase">KNOWLEDGE BASE</h2>
+                        <span className={`text-xs font-bold font-sans tracking-widest uppercase block ${isDarkMode ? 'text-indigo-400 font-mono' : 'text-indigo-650'}`}>✦ FREQUENTLY ASKED QUESTIONS</span>
+                        <h2 className={`text-3xl font-black tracking-tight leading-none uppercase ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>KNOWLEDGE BASE</h2>
                       </div>
 
                       <div className="space-y-4 pt-2">
@@ -1409,12 +1429,14 @@ export default function App() {
                             a: 'No! There are no artificial limits placed on files. Your browser\'s hardware memory capacity (RAM) is the only limiting factor. This is why our engine is designed for efficient zero-latency compression.'
                           }
                         ].map((faqItem, i) => (
-                          <div key={i} className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-                            <h3 className="font-semibold text-white text-sm flex items-center gap-2 font-mono">
-                              <HelpCircle className="w-4 h-4 text-indigo-400 flex-shrink-0" />
+                          <div key={i} className={`p-5 rounded-2xl border space-y-2 transition-all ${
+                            isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200 hover:bg-slate-100/50'
+                          }`}>
+                            <h3 className={`font-semibold text-sm flex items-center gap-2 font-mono ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                              <HelpCircle className={`w-4 h-4 flex-shrink-0 ${isDarkMode ? 'text-[#e22828]' : 'text-[#e22828]'}`} />
                               {faqItem.q}
                             </h3>
-                            <p className="text-slate-400 text-xs leading-relaxed pl-6">{faqItem.a}</p>
+                            <p className={`text-xs leading-relaxed pl-6 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>{faqItem.a}</p>
                           </div>
                         ))}
                       </div>
@@ -1424,38 +1446,40 @@ export default function App() {
                   {activeInfoPage === 'terms' && (
                     <div className="space-y-6">
                       <div className="space-y-2">
-                        <span className="text-xs font-bold text-indigo-400 font-mono tracking-widest uppercase block">✦ SYSTEM LEGAL AGREEMENT</span>
-                        <h2 className="text-3xl font-black text-white tracking-tight leading-none uppercase">TERMS AND CONDITIONS & PRIVACY POLICY</h2>
-                        <span className="text-[10px] text-slate-500 font-mono block">LAST MODIFIED: JUNE 2026</span>
+                        <span className={`text-xs font-bold font-sans tracking-widest uppercase block ${isDarkMode ? 'text-indigo-400 font-mono' : 'text-indigo-650'}`}>✦ SYSTEM LEGAL AGREEMENT</span>
+                        <h2 className={`text-3xl font-black tracking-tight leading-none uppercase ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>TERMS AND CONDITIONS & PRIVACY POLICY</h2>
+                        <span className={`text-[10px] font-mono block ${isDarkMode ? 'text-slate-500' : 'text-slate-600'}`}>LAST MODIFIED: JUNE 2026</span>
                       </div>
 
-                      <div className="space-y-5 text-xs text-slate-400 leading-relaxed font-mono">
-                        <p className="font-sans text-sm text-slate-350">
+                      <div className={`space-y-5 text-xs leading-relaxed font-mono ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                        <p className={`font-sans text-sm ${isDarkMode ? 'text-slate-350' : 'text-slate-700'}`}>
                           By accessing AllRounderPDF, you agree to the following system-level conditions and secure client-side computing policy:
                         </p>
 
-                        <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-3.5">
+                        <div className={`p-5 rounded-2xl border space-y-3.5 transition-all ${
+                          isDarkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'
+                        }`}>
                           <div>
-                            <h4 className="font-bold text-white text-xs uppercase mb-1">1. Full Local Custody Policy</h4>
-                            <p className="leading-normal text-slate-400 font-sans">
+                            <h4 className={`font-bold text-xs uppercase mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>1. Full Local Custody Policy</h4>
+                            <p className={`leading-normal font-sans ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
                               All conversion, security filtering, splitting, and merging steps are completed inside your browser sandbox. We do not transmit or cache any documents onto web databases. Files are entirely yours.
                             </p>
                           </div>
                           <div>
-                            <h4 className="font-bold text-white text-xs uppercase mb-1">2. No-Liability Sandbox Constraint</h4>
-                            <p className="leading-normal text-slate-400 font-sans">
+                            <h4 className={`font-bold text-xs uppercase mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>2. No-Liability Sandbox Constraint</h4>
+                            <p className={`leading-normal font-sans ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
                               The processing systems are delivered "as-is" without representations or warranties. Since all operations run entirely in local client memory, we do not accept responsibility for browser timeouts or hardware limitations during highly complex compilations.
                             </p>
                           </div>
                           <div>
-                            <h4 className="font-bold text-white text-xs uppercase mb-1">3. Permitted Sandbox Operations</h4>
-                            <p className="leading-normal text-slate-400 font-sans">
+                            <h4 className={`font-bold text-xs uppercase mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>3. Permitted Sandbox Operations</h4>
+                            <p className={`leading-normal font-sans ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
                               Users may process documents for personal, commercial, or academic activities with zero restriction, completely free. No automation or scrapers are allowed with our local frontend elements.
                             </p>
                           </div>
                           <div>
-                            <h4 className="font-bold text-white text-xs uppercase mb-1">4. Cookies and Telemetry</h4>
-                            <p className="leading-normal text-slate-400 font-sans">
+                            <h4 className={`font-bold text-xs uppercase mb-1 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>4. Cookies and Telemetry</h4>
+                            <p className={`leading-normal font-sans ${isDarkMode ? 'text-slate-400' : 'text-slate-650'}`}>
                               AllRounderPDF does not employ tracking cookies or telemetry beacons. All states are stored cleanly inside ephemeral local memory and are destroyed when the browser window is closed.
                             </p>
                           </div>
@@ -1467,9 +1491,9 @@ export default function App() {
                   {activeInfoPage === 'features' && (
                     <div className="space-y-6">
                       <div className="space-y-2">
-                        <span className="text-xs font-bold text-indigo-400 font-mono tracking-widest uppercase block">✦ TOOL REGISTRY INDEX</span>
-                        <h2 className="text-3xl font-black text-white tracking-tight leading-none uppercase">ALL PAGES & FUNCTIONAL MODULES</h2>
-                        <p className="text-slate-400 text-sm leading-relaxed">
+                        <span className={`text-xs font-bold font-sans tracking-widest uppercase block ${isDarkMode ? 'text-indigo-400 font-mono' : 'text-indigo-650'}`}>✦ TOOL REGISTRY INDEX</span>
+                        <h2 className={`text-3xl font-black tracking-tight leading-none uppercase ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>ALL PAGES & FUNCTIONAL MODULES</h2>
+                        <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
                           Click directly on any tool below to launch its workspace container and start editing securely.
                         </p>
                       </div>
@@ -1482,15 +1506,23 @@ export default function App() {
                               setSelectedToolId(t.id);
                               setActiveInfoPage(null);
                             }}
-                            className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-indigo-500/30 hover:bg-white/10 transition-all duration-300 cursor-pointer space-y-2 text-left"
+                            className={`p-4 rounded-xl border transition-all duration-300 cursor-pointer space-y-2 text-left ${
+                              isDarkMode 
+                                ? 'bg-white/5 border-white/10 hover:border-[#e22828]/40 hover:bg-white/10' 
+                                : 'bg-slate-50 hover:bg-white border-slate-200 hover:border-[#e22828]/50 hover:shadow-md'
+                            }`}
                           >
                             <div className="flex items-center justify-between">
-                              <span className="text-xs font-bold text-white">{t.name}</span>
-                              <span className="text-[9px] font-mono font-bold text-slate-500 bg-white/5 px-2 py-0.5 rounded uppercase">
+                              <span className={`text-xs font-black ${isDarkMode ? 'text-white' : 'text-slate-900 group-hover:text-[#e22828]'}`}>{t.name}</span>
+                              <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase ${
+                                isDarkMode ? 'text-slate-500 bg-white/5' : 'text-[#e22828] bg-red-50'
+                              }`}>
                                 {t.category}
                               </span>
                             </div>
-                            <p className="text-[10.5px] text-slate-400 leading-snug line-clamp-2">{t.description}</p>
+                            <p className={`text-[10.5px] leading-snug line-clamp-2 ${
+                              isDarkMode ? 'text-slate-400' : 'text-slate-550'
+                            }`}>{t.description}</p>
                           </div>
                         ))}
                       </div>
@@ -1698,7 +1730,7 @@ export default function App() {
       <footer id="main-app-footer" className="w-full relative z-20 transition-all duration-300 mt-16">
         
         {/* TOP SECTION: VIBRANT SECURE RED PANEL */}
-        <div className="bg-[#dd1f26] text-white py-10 px-4 sm:px-6 md:px-12 border-t border-red-700/30 shadow-inner relative overflow-hidden">
+        <div className="bg-[#2c0e0e] text-white py-10 px-4 sm:px-6 md:px-12 border-t border-red-700/30 shadow-inner relative overflow-hidden">
           {/* Subtle logo vector overlay */}
           <div className="absolute inset-0 flex items-center justify-end opacity-[0.05] pointer-events-none select-none scale-125 translate-x-20">
             <SerpentLogo className="w-96 h-96" />
@@ -1761,66 +1793,72 @@ export default function App() {
           </div>
         </div>
 
-        {/* BOTTOM SECTION: SECURE HIGH-CONTRAST WHITE LINK GRID */}
-        <div className="bg-white text-slate-500 py-12 px-4 sm:px-6 md:px-12 border-t border-slate-200 relative overflow-hidden">
+         {/* BOTTOM SECTION: SECURE HIGH-CONTRAST WHITE LINK GRID */}
+        <div className={`py-12 px-4 sm:px-6 md:px-12 border-t relative overflow-hidden transition-all duration-300 ${
+          isDarkMode 
+            ? 'bg-slate-950 border-white/5 text-slate-400' 
+            : 'bg-white border-slate-200 text-slate-600 shadow-sm'
+        }`}>
           <div className="max-w-7xl mx-auto space-y-10">
             
             {/* Main 5-Column Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 pb-8 border-b border-slate-100">
+            <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 pb-8 border-b ${
+              isDarkMode ? 'border-white/5' : 'border-slate-100'
+            }`}>
               
               {/* Column 1: Product */}
               <div className="space-y-4 text-left">
-                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-mono">Product</h4>
-                <ul className="space-y-2.5 text-[11px] font-medium transition-all">
-                  <li><button onClick={() => { setSelectedToolId(null); setActiveInfoPage(null); }} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Home</button></li>
-                  <li><button onClick={() => setActiveInfoPage('features')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Features</button></li>
-                  <li><button onClick={() => setActiveInfoPage('pricing')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Pricing</button></li>
-                  <li><button onClick={() => { setSelectedToolId(null); setActiveInfoPage(null); }} className="hover:text-red-600 transition-colors cursor-pointer font-bold text-[#dd1f26] text-left block">Tools</button></li>
-                  <li><button onClick={() => setActiveInfoPage('faq')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">FAQ</button></li>
+                <h4 className={`text-xs font-bold uppercase tracking-wider font-mono ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Product</h4>
+                <ul className="space-y-2.5 text-[11px] font-semibold transition-all">
+                  <li><button onClick={() => { setSelectedToolId(null); setActiveInfoPage(null); }} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Home</button></li>
+                  <li><button onClick={() => setActiveInfoPage('features')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Features</button></li>
+                  <li><button onClick={() => setActiveInfoPage('pricing')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Pricing</button></li>
+                  <li><button onClick={() => { setSelectedToolId(null); setActiveInfoPage(null); }} className="hover:text-red-600 transition-colors cursor-pointer font-bold text-[#e22828] text-left block">Tools</button></li>
+                  <li><button onClick={() => setActiveInfoPage('faq')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>FAQ</button></li>
                 </ul>
               </div>
 
               {/* Column 2: Solutions */}
               <div className="space-y-4 text-left">
-                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-mono">Solutions</h4>
-                <ul className="space-y-2.5 text-[11px] font-medium">
-                  <li><button onClick={() => setActiveInfoPage('features')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Business</button></li>
-                  <li><button onClick={() => setActiveInfoPage('features')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Education</button></li>
-                  <li><button onClick={() => setActiveInfoPage('features')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Legal</button></li>
+                <h4 className={`text-xs font-bold uppercase tracking-wider font-mono ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Solutions</h4>
+                <ul className="space-y-2.5 text-[11px] font-semibold">
+                  <li><button onClick={() => setActiveInfoPage('features')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Business</button></li>
+                  <li><button onClick={() => setActiveInfoPage('features')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Education</button></li>
+                  <li><button onClick={() => setActiveInfoPage('features')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Legal</button></li>
                 </ul>
               </div>
 
               {/* Column 3: Resources */}
               <div className="space-y-4 text-left font-sans">
-                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-mono">Resources</h4>
-                <ul className="space-y-2.5 text-[11px] font-medium">
-                  <li><button onClick={() => setActiveInfoPage('desktop')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">AllRounderPDF Desktop</button></li>
-                  <li><button onClick={() => setActiveInfoPage('mobile')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">AllRounderPDF Mobile</button></li>
-                  <li><button onClick={() => setActiveInfoPage('sign')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">AllRounderSign</button></li>
-                  <li><button onClick={() => setActiveInfoPage('api')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">AllRounderAPI</button></li>
-                  <li><button onClick={() => setActiveInfoPage('img')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">AllRounderIMG</button></li>
+                <h4 className={`text-xs font-bold uppercase tracking-wider font-mono ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Resources</h4>
+                <ul className="space-y-2.5 text-[11px] font-semibold">
+                  <li><button onClick={() => setActiveInfoPage('desktop')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>AllRounderPDF Desktop</button></li>
+                  <li><button onClick={() => setActiveInfoPage('mobile')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>AllRounderPDF Mobile</button></li>
+                  <li><button onClick={() => setActiveInfoPage('sign')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>AllRounderSign</button></li>
+                  <li><button onClick={() => setActiveInfoPage('api')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>AllRounderAPI</button></li>
+                  <li><button onClick={() => setActiveInfoPage('img')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>AllRounderIMG</button></li>
                 </ul>
               </div>
 
               {/* Column 4: Security & Policies */}
               <div className="space-y-4 text-left">
-                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-mono">Security</h4>
-                <ul className="space-y-2.5 text-[11px] font-medium">
-                  <li><button onClick={() => setActiveInfoPage('terms')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Security</button></li>
-                  <li><button onClick={() => setActiveInfoPage('terms')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Privacy policy</button></li>
-                  <li><button onClick={() => setActiveInfoPage('terms')} className="hover:text-red-600 transition-colors cursor-pointer text-left block font-bold text-[#dd1f26]">Terms & conditions</button></li>
-                  <li><button onClick={() => setActiveInfoPage('terms')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Cookies</button></li>
+                <h4 className={`text-xs font-bold uppercase tracking-wider font-mono ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Security</h4>
+                <ul className="space-y-2.5 text-[11px] font-semibold">
+                  <li><button onClick={() => setActiveInfoPage('terms')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Security</button></li>
+                  <li><button onClick={() => setActiveInfoPage('terms')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Privacy policy</button></li>
+                  <li><button onClick={() => setActiveInfoPage('terms')} className="hover:text-red-600 transition-colors cursor-pointer text-left block font-bold text-[#e22828]">Terms & conditions</button></li>
+                  <li><button onClick={() => setActiveInfoPage('terms')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Cookies</button></li>
                 </ul>
               </div>
 
               {/* Column 5: Company */}
               <div className="space-y-4 text-left">
-                <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider font-mono">Company</h4>
-                <ul className="space-y-2.5 text-[11px] font-medium">
-                  <li><button onClick={() => setActiveInfoPage('about')} className="hover:text-red-600 transition-colors cursor-pointer text-left block">About us</button></li>
-                  <li><button onClick={() => setActiveInfoPage('contact')} className="hover:text-red-600 transition-colors cursor-pointer text-left block font-bold text-[#dd1f26]">Contact us</button></li>
-                  <li><button onClick={() => { setSelectedToolId(null); setActiveInfoPage(null); }} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Blog</button></li>
-                  <li><button onClick={() => { setSelectedToolId(null); setActiveInfoPage(null); }} className="hover:text-red-600 transition-colors cursor-pointer text-left block">Press</button></li>
+                <h4 className={`text-xs font-bold uppercase tracking-wider font-mono ${isDarkMode ? 'text-[#e22828]' : 'text-slate-900'}`}>Company</h4>
+                <ul className="space-y-2.5 text-[11px] font-semibold">
+                  <li><button onClick={() => setActiveInfoPage('about')} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>About us</button></li>
+                  <li><button onClick={() => setActiveInfoPage('contact')} className="hover:text-red-600 transition-colors cursor-pointer text-left block font-bold text-[#e22828]">Contact us</button></li>
+                  <li><button onClick={() => { setSelectedToolId(null); setActiveInfoPage(null); }} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Blog</button></li>
+                  <li><button onClick={() => { setSelectedToolId(null); setActiveInfoPage(null); }} className={`transition-colors cursor-pointer text-left block ${isDarkMode ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-red-650'}`}>Press</button></li>
                 </ul>
               </div>
 
@@ -1837,9 +1875,13 @@ export default function App() {
                       key={store}
                       href="#"
                       onClick={(e) => e.preventDefault()}
-                      className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 font-mono rounded-lg border border-slate-200 transition flex items-center gap-1.5 cursor-pointer"
+                      className={`px-3 py-1.5 font-sans font-bold rounded-lg border transition flex items-center gap-1.5 cursor-pointer ${
+                        isDarkMode 
+                          ? 'bg-white/5 border-white/5 text-slate-300 hover:bg-white/10 hover:text-white' 
+                          : 'bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-900 border-slate-200'
+                      }`}
                     >
-                      <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-ping"></span>
+                      <span className="w-1.5 h-1.5 bg-[#e22828] rounded-full animate-pulse"></span>
                       {store}
                     </a>
                   ))}
@@ -1848,8 +1890,10 @@ export default function App() {
 
               {/* Lang and Offline status */}
               <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-slate-600">
-                  <Globe className="w-3.5 h-3.5 text-red-600" />
+                <div className={`flex items-center gap-1.5 border rounded-lg px-2.5 py-1 ${
+                  isDarkMode ? 'bg-white/5 border-white/5 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'
+                }`}>
+                  <Globe className="w-3.5 h-3.5 text-[#e22828]" />
                   <span>English</span>
                 </div>
                 <span className="font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200 tracking-wider">
@@ -1859,11 +1903,13 @@ export default function App() {
             </div>
 
             {/* Footer Bottom copyright info */}
-            <div className="border-t border-slate-200 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-[11px] text-slate-400 font-medium font-mono">
+            <div className={`border-t pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left text-[11px] font-semibold font-mono ${
+              isDarkMode ? 'border-white/5 text-slate-500' : 'border-slate-200 text-slate-400'
+            }`}>
               <p>
                 &copy; AllRounderPDF 2026 &reg; - Offline-First Client Suite &bull; ESTABLISHED 2025
               </p>
-              <p className="text-[10px] uppercase tracking-widest text-[#dd1f26] font-bold">
+              <p className="text-[10px] uppercase tracking-widest text-[#e22828] font-bold">
                 Private Sandbox Computing Framework
               </p>
             </div>
